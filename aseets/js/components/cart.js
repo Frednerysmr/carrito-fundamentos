@@ -135,14 +135,49 @@ function cart (db, printProducts) {
             addToCart(id)
         }
         if (e.target.closest('.remove-from-cart')){
-            const id = +e.target.closest('.remove-from-cart').dataset.id
-            deleteFromCart(id)
+            Swal.fire({
+                title: '¿Seguro que quiere Eliminarlo?',
+                text: "Todo el articulo se borra del Carrito",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si, Eliminar',
+                cancelButtonText:'Cancelar'
+              }).then((result) => {
+                if (result.isConfirmed) {
+                    const id = +e.target.closest('.remove-from-cart').dataset.id
+                    deleteFromCart(id)  
+                  Swal.fire(
+                    'Eliminado',
+                    'El articulo se ha eliminado del Carrito',
+                    'success'
+                  )
+                }
+
+              })  
         }
 
     })
 
     checkoutDOM.addEventListener('click', function (e) {
-        checkout()
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer)
+              toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+          })
+          
+          Toast.fire({
+            icon: 'success',
+            title: 'Gracias por su Compra'
+          })
+          checkout()
     })
 
 }
