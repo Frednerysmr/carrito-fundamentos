@@ -1,0 +1,216 @@
+:root {
+    --text-color: hsl(0, 0%, 100%); 
+    --bodyD-color: hsl(0, 0%, 9%); 
+    --formD-color: hsl(0, 0%, 13%); 
+    --body-color: hsl(60, 56%, 91%);
+    --form-color: rgba(226, 220, 220, 0.76);
+
+    --botton-color: hsl(353, 86%, 39%); 
+
+    --info-color: hsl(0, 0%, 0%); 
+    --deco-color: hsl(360, 67%, 51%);
+    --letra-color:  hsl(353, 86%, 39%);
+
+    --bordeD-color: hsla(0, 0%, 100%, 0.3);
+    --borde-color: 0 0 20px 0 hsl(0, 0%, 0%);
+
+    --switch-active: hsl(39, 100%, 50%);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--body-color) ;
+    color: var(--info-color);
+    line-height: 1.6;
+    font-family: 'Quicksand', sans-serif;
+    padding: 0 1.5em;
+}
+
+.container {
+    max-width: 1170px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 1.5em;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+.logo {
+    text-align: center;
+    font-size: 3em;
+}
+
+.logo span {
+    color: var(--letra-color);
+}
+
+.content__title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.contact-wrapper {
+    box-shadow: var(--borde-color) ;
+}
+
+.contact-wrapper > * {
+    padding: 1em;
+}
+
+.contact-form {
+    background: var(--form-color) ;
+}
+
+.contact-form form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.contact-form form label {
+    display: block;
+}
+
+.contact-form form p {
+    margin: 0;
+    padding: 1em;
+}
+
+.contact-form form .block {
+    grid-column: 1 / 3;
+}
+
+.contact-form form button,
+.contact-form form input,
+.contact-form form textarea {
+    width: 100%;
+    padding: .7em;
+    border: none;
+    background: none;
+    outline: 0;
+    color: black;
+    border-bottom: 1px solid var(--deco-color);
+}
+
+.contact-form form button {
+    background: var(--botton-color);
+    border: 0;
+    text-transform: uppercase;
+    padding: 1em;
+}
+
+.contact-form form button:hover,
+.contact-form form button:focus {
+    background: var(--deco-color);
+    color: var(--text-color);
+    transition: background-color 1s ease-out;
+    outline: 0;
+}
+
+/* CONTACT INFO */
+.contact-info {
+    background: var(--botton-color);
+    color: var(--text-color);
+}
+
+.contact-info h4, .contact-info ul, .contact-info p {
+    text-align: center;
+    margin: 0 0 1rem 0;
+}
+
+/* LARGE SIZE */
+@media(min-width: 768px) {
+    body {
+        padding: 0 4em;
+    }
+    .contact-wrapper {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+    }
+    .contact-wrapper > * {
+        padding: 2em;
+    }
+    .contact-info h4,
+    .contact-info ul,
+    .contact-info p {
+        text-align: left;
+    }
+}
+
+
+.switch {
+    background: #343D5B;
+    border-radius: 100px;
+    border: none;
+    position: relative;
+    display: flex;
+    outline: none;
+    margin: 0px auto;
+    cursor: pointer;
+}
+
+.switch span {
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    display: block;
+    background: none;
+    color: var(--text-color);
+}
+
+.switch::after {
+    content: "";
+    display: block;
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    background: var(--body-color);
+    top: 0;
+    left: 0;
+    right: unset;
+    border-radius: 100px;
+    transition: .3s ease all;
+    box-shadow: 0px 0px 2px 2px rgba(0, 0, 0, .2);
+    transform: scale(.8);
+}
+
+.switch.active {
+    background: var(--switch-active);
+    color: var(--info-color);
+}
+
+.switch.active::after{
+    right: 0;
+    left: unset;
+}
+
+body.dark {
+    background:var(--bodyD-color);
+    color: var(--text-color);
+}
+
+.contact-wrapper.darkMon {
+    box-shadow: 0 0 20px 0 var(--bordeD-color);
+}
+
+.contact-form.darkMon {
+    background:var(--formD-color);}
+
+.contact-form.darkMon form button,
+.contact-form.darkMon form input,
+.contact-form.darkMon form textarea {
+    color: var(--text-color);}
+
+.contact-form.darkMon form button:hover,
+.contact-form.darkMon form button:focus {
+    color: var(--text-color);}
+
+.contact-info.darkMon {
+ background: var(--info-color);
+}
