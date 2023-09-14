@@ -1,17 +1,11 @@
 :root {
     --text-color: hsl(0, 0%, 100%); 
-    --bodyD-color: hsl(0, 0%, 9%); 
-    --formD-color: hsl(0, 0%, 13%); 
     --body-color: hsl(60, 56%, 91%);
     --form-color: rgba(226, 220, 220, 0.76);
-
     --botton-color: hsl(353, 86%, 39%); 
-
     --info-color: hsl(0, 0%, 0%); 
     --deco-color: hsl(360, 67%, 51%);
     --letra-color:  hsl(353, 86%, 39%);
-
-    --bordeD-color: hsla(0, 0%, 100%, 0.3);
     --borde-color: 0 0 20px 0 hsl(0, 0%, 0%);
 
     --switch-active: hsl(39, 100%, 50%);
@@ -170,7 +164,7 @@ ul {
     width: 30px;
     height: 30px;
     position: absolute;
-    background: var(--body-color);
+    background: #F1F1F1;
     top: 0;
     left: 0;
     right: unset;
@@ -189,28 +183,10 @@ ul {
     right: 0;
     left: unset;
 }
-
+ 
 body.dark {
-    background:var(--bodyD-color);
-    color: var(--text-color);
-}
-
-.contact-wrapper.darkMon {
-    box-shadow: 0 0 20px 0 var(--bordeD-color);
-}
-
-.contact-form.darkMon {
-    background:var(--formD-color);}
-
-.contact-form.darkMon form button,
-.contact-form.darkMon form input,
-.contact-form.darkMon form textarea {
-    color: var(--text-color);}
-
-.contact-form.darkMon form button:hover,
-.contact-form.darkMon form button:focus {
-    color: var(--text-color);}
-
-.contact-info.darkMon {
- background: var(--info-color);
+    --body-color: hsl(0, 0%, 9%);
+    --form-color: hsl(0, 0%, 13%);
+    --borde-color: 0 0 20px 0 hsla(0, 0%, 100%, 0.3);
+    color: var(--text-color); 
 }

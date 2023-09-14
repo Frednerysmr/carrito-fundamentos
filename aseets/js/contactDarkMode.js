@@ -1,14 +1,27 @@
 function contactDarkMode () {
+
     const btnSwitch = document.querySelector('.switch');
-    const form = document.querySelector('.contact-form');
-    const wrapper = document.querySelector('.contact-wrapper');
 
      btnSwitch.addEventListener('click', (e) => {
+      
         document.body.classList.toggle('dark')
         btnSwitch.classList.toggle('active')
-        form.classList.toggle('darkMon')
-        wrapper.classList.toggle('darkMon')
+
+        if (document.body.classList.contains('dark')){
+          localStorage.setItem('dark-mode', 'true');
+    
+        } else {
+          localStorage.setItem('dark-mode', 'false')
+        }
+
       })
+
+      
+    if (localStorage.getItem('dark-mode') === 'true'){
+      document.body.classList.add('dark')
+    } else {
+      document.body.classList.remove('dark')
+    }
   
   }
   

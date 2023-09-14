@@ -1,6 +1,7 @@
 const ls = window.localStorage
 
 function cart(db, printProducts) {
+
     let cart = JSON.parse(ls.getItem('cart')) || []
     //Elementos del DOM
     const productDOM = document.querySelector('.products__container')
@@ -60,36 +61,40 @@ function cart(db, printProducts) {
     }
 
     function addToCart(id, qty = 1) {
+
         const productFinded = db.find(i => i.id === id)
 
         if (productFinded.quantity > 0) {
-
             const itemFinded = cart.find(i => i.id === id)
-
 
             if (itemFinded) {
 
                 if (ChecarStok(id, qty + itemFinded.qty)) {
                     itemFinded.qty++
                 } else {
-                    window.alert('no hay')
-                    //mensaje de que no hay
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Actualmente este producto esta agotado',
+                      })
                 }
 
             } else {
                 cart.push({ id, qty })
             }
         } else {
-            window.alert('no')
+            Swal.fire('Lo siento, actualmente no tenemos más existencias de este producto')
         }
 
         printCart()
     }
 
     function ChecarStok (id, qty) { 
+
         const itemFinded = db.find(function (pro) {
             return pro.id === id
         })
+
        return itemFinded.quantity - qty >= 0
     }
 
