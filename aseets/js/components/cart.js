@@ -1,5 +1,7 @@
-function cart (db, printProducts) {
-    let cart = []
+const ls = window.localStorage
+
+function cart(db, printProducts) {
+    let cart = JSON.parse(ls.getItem('cart')) || []
     //Elementos del DOM
     const productDOM = document.querySelector('.products__container')
     const notifyDOM = document.querySelector('.notify')
@@ -12,8 +14,8 @@ function cart (db, printProducts) {
     function printCart() {
         let htmlCart = ''
 
-        if(cart.length === 0 ) {
-            htmlCart +=  ` 
+        if (cart.length === 0) {
+            htmlCart += ` 
             <div class="cart__empty">
             <i class='bx bx-cart-add'></i>
             <p class="cart__empty--text">No hay productos en el carrito</p>
@@ -45,30 +47,53 @@ function cart (db, printProducts) {
                         </button>
                     </div>
                 </article>
-                ` 
+                `
             }
             notifyDOM.classList.add('show--notify')
         }
-        
+
         cartDOM.innerHTML = htmlCart
+        ls.setItem('cart', JSON.stringify(cart))
         notifyDOM.innerHTML = showItemsCount()
         countDOM.innerHTML = showItemsCount()
         totalDOM.innerHTML = showTotal()
     }
 
-    function addToCart (id, qty = 1) {
-        const itemFinded = cart.find(i => i.id === id)
+    function addToCart(id, qty = 1) {
+        const productFinded = db.find(i => i.id === id)
 
-        if (itemFinded) {
-            itemFinded.qty += qty
+        if (productFinded.quantity > 0) {
+
+            const itemFinded = cart.find(i => i.id === id)
+
+
+            if (itemFinded) {
+
+                if (ChecarStok(id, qty + itemFinded.qty)) {
+                    itemFinded.qty++
+                } else {
+                    window.alert('no hay')
+                    //mensaje de que no hay
+                }
+
+            } else {
+                cart.push({ id, qty })
+            }
         } else {
-            cart.push({ id, qty })
+            window.alert('no')
         }
 
         printCart()
     }
 
-    function removeFromCart (id, qty = 1) {
+    function ChecarStok (id, qty) { 
+        const itemFinded = db.find(function (pro) {
+            return pro.id === id
+        })
+       return itemFinded.quantity - qty >= 0
+    }
+
+    function removeFromCart(id, qty = 1) {
         const itemFinded = cart.find(i => i.id === id)
         const result = itemFinded.qty - qty
         if (result > 0) {
@@ -79,22 +104,22 @@ function cart (db, printProducts) {
         printCart()
     }
 
-    function deleteFromCart (id) {
+    function deleteFromCart(id) {
         cart = cart.filter(i => i.id !== id)
         printCart()
     }
 
-    function showItemsCount () {
+    function showItemsCount() {
         let suma = 0
-        for(const item of cart){
+        for (const item of cart) {
             suma += item.qty
         }
         return suma
     }
 
-    function showTotal () {
+    function showTotal() {
         let total = 0
-        for (const item of cart){
+        for (const item of cart) {
             const productFinded = db.find(p => p.id === item.id)
             total += item.qty * productFinded.price
         }
@@ -102,7 +127,7 @@ function cart (db, printProducts) {
         return total
     }
 
-    function checkout () {
+    function checkout() {
         for (const item of cart) {
             const productFinded = db.find(p => p.id === item.id)
 
@@ -112,7 +137,6 @@ function cart (db, printProducts) {
         cart = []
         printCart()
         printProducts()
-        window.alert('Gracias por su Compra')
     }
 
     printCart()
@@ -126,15 +150,15 @@ function cart (db, printProducts) {
     })
 
     cartDOM.addEventListener('click', function (e) {
-        if (e.target.closest('.article--minus')){
+        if (e.target.closest('.article--minus')) {
             const id = +e.target.closest('.article--minus').dataset.id
             removeFromCart(id)
         }
-        if (e.target.closest('.article--plus')){
+        if (e.target.closest('.article--plus')) {
             const id = +e.target.closest('.article--plus').dataset.id
             addToCart(id)
         }
-        if (e.target.closest('.remove-from-cart')){
+        if (e.target.closest('.remove-from-cart')) {
             Swal.fire({
                 title: '¿Seguro que quiere Eliminarlo?',
                 text: "Todo el articulo se borra del Carrito",
@@ -143,19 +167,19 @@ function cart (db, printProducts) {
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Si, Eliminar',
-                cancelButtonText:'Cancelar'
-              }).then((result) => {
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
                 if (result.isConfirmed) {
                     const id = +e.target.closest('.remove-from-cart').dataset.id
-                    deleteFromCart(id)  
-                  Swal.fire(
-                    'Eliminado',
-                    'El articulo se ha eliminado del Carrito',
-                    'success'
-                  )
+                    deleteFromCart(id)
+                    Swal.fire(
+                        'Eliminado',
+                        'El articulo se ha eliminado del Carrito',
+                        'success'
+                    )
                 }
 
-              })  
+            })
         }
 
     })
@@ -168,16 +192,16 @@ function cart (db, printProducts) {
             timer: 3000,
             timerProgressBar: true,
             didOpen: (toast) => {
-              toast.addEventListener('mouseenter', Swal.stopTimer)
-              toast.addEventListener('mouseleave', Swal.resumeTimer)
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
             }
-          })
-          
-          Toast.fire({
+        })
+
+        Toast.fire({
             icon: 'success',
             title: 'Gracias por su Compra'
-          })
-          checkout()
+        })
+        checkout()
     })
 
 }
